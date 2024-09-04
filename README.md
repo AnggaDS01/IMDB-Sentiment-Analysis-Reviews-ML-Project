@@ -1,4 +1,4 @@
-# Iris Classification ML Project Workflow
+# IMDB Sentiment Analysis Reviews ML Project Workflow
 ---
 
 # How to run?
