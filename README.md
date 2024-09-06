@@ -1,6 +1,14 @@
 # IMDB Sentiment Analysis Reviews ML Project Workflow
 ---
 
+# Project Workflows
+* **constants**
+* **config_enity**
+* **components**
+* **artifact_enity**
+* **pipeline**
+* **app.py**
+
 # How to run?
 
 ## **Step 1: Clone the repository :**

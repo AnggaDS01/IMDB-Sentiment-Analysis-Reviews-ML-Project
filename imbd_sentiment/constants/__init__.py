@@ -7,8 +7,13 @@ ARTIFACTS_DIR = os.path.join("artifacts", TIMESTAMP)
 FILE_ID = '1wDV_Uf9RHuduQJi_tdiY7pcGly6ISk8r'
 ZIP_FILE_NAME = 'IMDB Dataset.zip'
 LABEL = 'sentiment'
-TWEET = 'review'
+FEATURE = 'review'
 
 # Data ingestion constants
 DATA_INGESTION_ARTIFACTS_DIR = "DataIngestionArtifacts"
-DATA_INGESTION_IMBD_DATA_DIR = "IMDB Dataset.csv"
+DATA_FILE_NAME = "IMDB Dataset.csv"
+
+# Data Transformation constants
+DATA_TRANSFORMATION_ARTIFACTS_DIR = "DataTransformationrtifacts"
+TRANSFORMED_FILE_NAME = "imdb_reviews_final.csv"
+LABEL_TRANSFORMER_NAME = "label_transformer.pkl"
