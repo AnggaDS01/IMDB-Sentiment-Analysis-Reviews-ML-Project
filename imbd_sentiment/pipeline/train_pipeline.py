@@ -1,14 +1,19 @@
 from imbd_sentiment.logger import logging
 from imbd_sentiment.exception import CustomException
+
 from imbd_sentiment.components.data_ingestion import DataIngestion
 from imbd_sentiment.components.data_transformation import DataTransformation
+from imbd_sentiment.components.model_trainer import ModelTrainer
+
 from imbd_sentiment.entity.config_entity import (
     DataIngestionConfig,
-    DataTransformationConfig
+    DataTransformationConfig,
+    ModelTrainerConfig
 )
 from imbd_sentiment.entity.artifact_entity import (
     DataIngestionArtifacts,
-    DataTransformationArtifacts
+    DataTransformationArtifacts,
+    ModelTrainerArtifacts
 )
 
 import sys
@@ -17,6 +22,7 @@ class TrainPipeline:
     def __init__(self):
         self.data_ingestion_config = DataIngestionConfig()
         self.data_transformation_config = DataTransformationConfig()
+        self.model_trainer_config = ModelTrainerConfig()
 
     def start_data_ingestion(self) -> DataIngestionArtifacts:
         logging.info("Entered the start_data_ingestion method of TrainPipeline class")
@@ -46,8 +52,21 @@ class TrainPipeline:
             return data_transformation_artifacts
 
         except Exception as e:
-            raise CustomException(e, sys) from e
+            raise CustomException(e, sys)
 
+    def start_model_trainer(self, data_transformation_artifacts: DataTransformationArtifacts) -> ModelTrainerArtifacts:
+        logging.info("Entered the start_model_trainer method of TrainPipeline class")
+        try:
+            model_trainer = ModelTrainer(
+                model_trainer_config=self.model_trainer_config,
+                data_transformation_artifacts=data_transformation_artifacts
+            )
+            model_trainer_artifacts = model_trainer.initiate_model_trainer()
+            logging.info("Exited the start_model_trainer method of TrainPipeline class")
+            return model_trainer_artifacts
+        except Exception as e:
+            raise CustomException(e, sys)
+        
     def run_pipeline(self):
         logging.info("Entered the run_pipeline method of TrainPipeline class")
         try:
@@ -56,7 +75,12 @@ class TrainPipeline:
                 data_ingestion_artifacts=data_ingestion_artifacts
             )
 
+            model_trainer_artifacts = self.start_model_trainer(
+                data_transformation_artifacts=data_transformation_artifacts
+            )
+
+
             logging.info("Exited the run_pipeline method of TrainPipeline class") 
-            return data_transformation_artifacts
+            return model_trainer_artifacts
         except Exception as e:
             raise CustomException(e, sys)
